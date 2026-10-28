@@ -10,8 +10,8 @@ Consolidar os conhecimentos de programação orientada a objetos, arquitetura em
 ---
 
 ## 🛠️ Tecnologias Utilizadas
-* **Node.js**[cite: 13]
-* **TypeScript**[cite: 13]
+* **Node.js**
+* **TypeScript**
 * **PostgreSQL** (para o projeto de banco de dados e script DDL/DML/Relatórios)
 * **tsx** (execução de arquivos TypeScript)
 * **dotenv** (gerenciamento de variáveis de ambiente)
