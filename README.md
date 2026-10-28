@@ -42,11 +42,13 @@ A aplicação está organizada em camadas para garantir a separação de respons
 
 1. Para clonar o projeto corretamente, basta copiar e colar o comando limpo abaixo diretamente no seu terminal:
 
-```bash
-git clone https://github.com/fhkwmk/bookstore-manager-cli.git
-
+    ```bash
+    git clone https://github.com/fhkwmk/bookstore-manager-cli.git
+    ```
 
 2. Em seguida, entre na pasta do projeto e instale as dependências:
-cd bookstore-manager-cli
-npm install
 
+    ```bash
+    cd bookstore-manager-cli
+    npm install
+    ```
