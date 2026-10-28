@@ -1,0 +1,47 @@
+# 📚 Bookstore Manager CLI
+
+Aplicação back-end executada via terminal (CLI) desenvolvida em **Node.js** e **TypeScript** para o gerenciamento de uma livraria, contemplando o controle de autores, livros, clientes e empréstimos[cite: 13, 14]. Projeto desenvolvido como parte do Projeto Final Avaliativo da Formação Desenvolvedor Back-End Node (Turma 04).
+
+---
+
+## 🎯 Objetivo do Projeto
+Consolidar os conhecimentos de programação orientada a objetos, arquitetura em camadas, programação assíncrona, modelagem de banco de dados relacional (PostgreSQL) e boas práticas de desenvolvimento (Clean Code e SOLID)[cite: 13, 14].
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+* **Node.js**[cite: 13]
+* **TypeScript**[cite: 13]
+* **PostgreSQL** (para o projeto de banco de dados e script DDL/DML/Relatórios)[cite: 14]
+* **tsx** (execução de arquivos TypeScript)
+* **dotenv** (gerenciamento de variáveis de ambiente)
+* **pg** (cliente PostgreSQL)
+
+---
+
+## 📂 Arquitetura do Projeto
+A aplicação está organizada em camadas para garantir a separação de responsabilidades[cite: 16, 17]:
+* **`src/main.ts`**: Ponto de entrada da aplicação, responsável por iniciar o sistema e carregar os dados iniciais (`seed`)[cite: 17].
+* **`src/menus/`**: Organização dos menus interativos exibidos no terminal[cite: 17].
+* **`src/controllers/`**: Camada de apresentação responsável por receber as entradas do usuário e acionar os serviços[cite: 17].
+* **`src/services/`**: Implementação das regras de negócio e validações[cite: 17].
+* **`src/repositories/`**: Gerenciamento do armazenamento e recuperação dos dados em memória durante a execução[cite: 17].
+* **`src/models/`**: Definição das classes, interfaces e tipos das entidades[cite: 17].
+* **`src/data/`**: Contém os dados iniciais (`seed.ts`)[cite: 17].
+* **`database/`**: Contém o Diagrama Entidade-Relacionamento (DER) e o arquivo `script.sql` (DDL, DML e consultas relacionais)[cite: 17, 19].
+
+---
+
+## ⚙️ Requisitos para Execução
+* Node.js instalado na máquina.
+* Gerenciador de pacotes `npm`.
+* PostgreSQL (caso deseje executar o script de banco de dados).
+
+---
+
+## 🚀 Instalação e Execução
+
+1. Clone o repositório:
+   ```bash
+   git clone [https://github.com/fhkwmk/bookstore-manager-cli.git](https://github.com/fhkwmk/bookstore-manager-cli.git)
+   cd bookstore-manager-cli
