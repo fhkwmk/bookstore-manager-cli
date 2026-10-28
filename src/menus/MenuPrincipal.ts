@@ -23,9 +23,11 @@ export class MenuPrincipal {
             console.log('2. Listar Clientes');
             console.log('3. Listar Livros');
             console.log('4. Cadastrar Novo Livro');
-            console.log('5. Listar Empréstimos');
-            console.log('6. Realizar Empréstimo');
-            console.log('7. Realizar Devolução');
+            console.log('5. Atualizar Livro');
+            console.log('6. Remover Livro');
+            console.log('7. Listar Empréstimos');
+            console.log('8. Realizar Empréstimo');
+            console.log('9. Realizar Devolução');
             console.log('0. Sair');
             console.log('----------------------------------------');
 
@@ -46,12 +48,18 @@ export class MenuPrincipal {
                         await this.cadastrarLivro();
                         break;
                     case '5':
-                        await this.listarEmprestimos();
+                        await this.atualizarLivro();
                         break;
                     case '6':
-                        await this.realizarEmprestimo();
+                        await this.removerLivro();
                         break;
                     case '7':
+                        await this.listarEmprestimos();
+                        break;
+                    case '8':
+                        await this.realizarEmprestimo();
+                        break;
+                    case '9':
                         await this.realizarDevolucao();
                         break;
                     case '0':
@@ -102,6 +110,39 @@ export class MenuPrincipal {
         });
 
         console.log('\n✅ Livro cadastrado com sucesso!');
+    }
+
+    private async atualizarLivro(): Promise<void> {
+        console.log('\n--- ATUALIZAR LIVRO ---');
+        const idStr = await this.rl.question('ID do livro que deseja atualizar: ');
+        const id = Number(idStr);
+
+        // Opcional: exibe o livro atual para referência
+        const livroAtual = await this.livroService.buscarPorId(id);
+        console.log(`Livro atual: "${livroAtual?.titulo}" (Estoque: ${livroAtual?.quantidade_disponivel})`);
+
+        const titulo = await this.rl.question('Novo título (deixe em branco para manter): ');
+        const anoStr = await this.rl.question('Novo ano de publicação (deixe em branco para manter): ');
+        const qtdStr = await this.rl.question('Nova quantidade disponível (deixe em branco para manter): ');
+        const autorIdStr = await this.rl.question('Novo ID do Autor (deixe em branco para manter): ');
+
+        await this.livroService.atualizarLivro(id, {
+            titulo: titulo.trim() !== '' ? titulo : undefined,
+            ano_publicacao: anoStr.trim() !== '' ? Number(anoStr) : undefined,
+            quantidade_disponivel: qtdStr.trim() !== '' ? Number(qtdStr) : undefined,
+            autor_id: autorIdStr.trim() !== '' ? Number(autorIdStr) : undefined
+        });
+
+        console.log('\n✅ Livro atualizado com sucesso!');
+    }
+
+    private async removerLivro(): Promise<void> {
+        console.log('\n--- REMOVER LIVRO ---');
+        const idStr = await this.rl.question('ID do livro que deseja remover: ');
+        const id = Number(idStr);
+
+        await this.livroService.deletarLivro(id);
+        console.log('\n✅ Livro removido com sucesso!');
     }
 
     private async listarEmprestimos(): Promise<void> {

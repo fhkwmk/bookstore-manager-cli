@@ -35,13 +35,17 @@ export class LivroRepository {
         return result.rows.length ? result.rows[0] : null;
     }
 
-    async atualizarQuantidade(id: number, quantidade: number): Promise<boolean> {
+    async atualizar(id: number, livro: Partial<Livro>): Promise<boolean> {
         const query = `
             UPDATE livros
-            SET quantidade_disponivel = $1
-            WHERE id = $2;
+            SET titulo = COALESCE($1, titulo),
+                ano_publicacao = COALESCE($2, ano_publicacao),
+                quantidade_disponivel = COALESCE($3, quantidade_disponivel),
+                autor_id = COALESCE($4, autor_id)
+            WHERE id = $5;
         `;
-        const result = await pool.query(query, [quantidade, id]);
+        const values = [livro.titulo, livro.ano_publicacao, livro.quantidade_disponivel, livro.autor_id, id];
+        const result = await pool.query(query, values);
         return (result.rowCount ?? 0) > 0;
     }
 
