@@ -21,39 +21,40 @@ Consolidar os conhecimentos de programação orientada a objetos, arquitetura em
 
 ## 📂 Arquitetura do Projeto
 A aplicação está organizada em camadas para garantir a separação de responsabilidades:
-* **`src/main.ts`**: Ponto de entrada da aplicação, responsável por iniciar o sistema e carregar os dados iniciais (`seed`).
-* **`src/menus/`**: Organização dos menus interativos exibidos no terminal.
-* **`src/controllers/`**: Camada de apresentação responsável por receber as entradas do usuário e acionar os serviços.
-* **`src/services/`**: Implementação das regras de negócio e validações.
-* **`src/repositories/`**: Gerenciamento do armazenamento e recuperação dos dados em memória durante a execução.
+* **`src/main.ts`**: Ponto de entrada da aplicação, responsável por iniciar o sistema e carregar os dados iniciais.
+* **`src/menus/`**: Camada de apresentação e organização dos menus interativos exibidos no terminal.
+* **`src/services/`**: Implementação das regras de negócio, validações e tratamento de erros.
+* **`src/repositories/`**: Gerenciamento do acesso aos dados no banco de dados.
 * **`src/models/`**: Definição das classes, interfaces e tipos das entidades.
-* **`src/data/`**: Contém os dados iniciais (`seed.ts`).
-* **`database/`**: Contém o Diagrama Entidade-Relacionamento (DER) e o arquivo `script.sql` (DDL, DML e consultas relacionais).
+* **`src/config/`**: Configuração da conexão com o banco de dados.
+* **`database/`**: Contém o Diagrama Entidade-Relacionamento (DER em PDF/Drawio) e o arquivo `script.sql` (DDL, DML e consultas relacionais).
 
 ---
 
 ## ⚙️ Requisitos para Execução
 * Node.js instalado na máquina.
 * Gerenciador de pacotes `npm`.
-* PostgreSQL (caso deseje executar o script de banco de dados).
+* PostgreSQL configurado para execução do script.
 
 ---
+
 ## 🚀 Instalação e Execução
 
-1. Para clonar o projeto corretamente, basta copiar e colar o comando limpo abaixo diretamente no seu terminal:
+1. Para clonar o projeto corretamente, utilize o comando abaixo no seu terminal:
 
     ```bash
-    git clone https://github.com/fhkwmk/bookstore-manager-cli.git
+    git clone [https://github.com/fhkwmk/bookstore-manager-cli.git](https://github.com/fhkwmk/bookstore-manager-cli.git)
     ```
 
-2. Em seguida, entre na pasta do projeto e instale as dependências:
+2. Entre na pasta do projeto e instale as dependências:
 
     ```bash
     cd bookstore-manager-cli
     npm install
     ```
-3. Execução
+
+3. Execução da aplicação:
 
     ```bash
-    npm rum start
+    npm run dev
     ```
