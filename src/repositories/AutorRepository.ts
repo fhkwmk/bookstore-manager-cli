@@ -1,5 +1,5 @@
-import { pool } from '../config/database';
-import { Autor } from '../models/Autor';
+import { pool } from '../config/database.js';
+import { type Autor } from '../models/Autor.js';
 
 export class AutorRepository {
     async criar(autor: Autor): Promise<Autor> {

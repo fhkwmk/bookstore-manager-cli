@@ -1,5 +1,5 @@
-import { pool } from '../config/database';
-import { Cliente } from '../models/Cliente';
+import { pool } from '../config/database.js';
+import { type Cliente } from '../models/Cliente.js';
 
 export class ClienteRepository {
     async criar(cliente: Cliente): Promise<Cliente> {

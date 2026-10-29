@@ -1,5 +1,5 @@
-import { pool } from '../config/database';
-import { Livro } from '../models/Livro';
+import { pool } from '../config/database.js';
+import type { Livro } from '../models/Livro.js';
 
 export class LivroRepository {
     async criar(livro: Livro): Promise<Livro> {
@@ -46,6 +46,12 @@ export class LivroRepository {
         `;
         const values = [livro.titulo, livro.ano_publicacao, livro.quantidade_disponivel, livro.autor_id, id];
         const result = await pool.query(query, values);
+        return (result.rowCount ?? 0) > 0;
+    }
+
+    async atualizarQuantidade(id: number, novaQuantidade: number): Promise<boolean> {
+        const query = 'UPDATE livros SET quantidade_disponivel = $1 WHERE id = $2;';
+        const result = await pool.query(query, [novaQuantidade, id]);
         return (result.rowCount ?? 0) > 0;
     }
 

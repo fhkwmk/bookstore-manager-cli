@@ -1,5 +1,5 @@
-import { LivroRepository } from '../repositories/LivroRepository';
-import { Livro } from '../models/Livro';
+import { LivroRepository } from '../repositories/LivroRepository.js';
+import { type Livro } from '../models/Livro.js';
 
 export class LivroService {
     private livroRepository = new LivroRepository();

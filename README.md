@@ -53,6 +53,6 @@ A aplicação está organizada em camadas para garantir a separação de respons
     npm install
     ```
 
-    ``bash
+    ```bash
     npm rum start
     ```

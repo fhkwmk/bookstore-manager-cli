@@ -1,9 +1,9 @@
 import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
-import { LivroService } from '../services/LivroService';
-import { EmprestimoService } from '../services/EmprestimoService';
-import { AutorRepository } from '../repositories/AutorRepository';
-import { ClienteRepository } from '../repositories/ClienteRepository';
+import { LivroService } from '../services/LivroService.js';
+import { EmprestimoService } from '../services/EmprestimoService.js';
+import { AutorRepository } from '../repositories/AutorRepository.js';
+import { ClienteRepository } from '../repositories/ClienteRepository.js';
 
 export class MenuPrincipal {
     private rl = readline.createInterface({ input, output });

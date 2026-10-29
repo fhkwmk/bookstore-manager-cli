@@ -1,5 +1,5 @@
-import { pool } from '../config/database';
-import { Emprestimo } from '../models/Emprestimo';
+import { pool } from '../config/database.js';
+import { type Emprestimo } from '../models/Emprestimo.js';
 
 export class EmprestimoRepository {
     async registrarEmprestimo(livroId: number, clienteId: number): Promise<Emprestimo> {

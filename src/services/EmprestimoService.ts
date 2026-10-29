@@ -1,7 +1,7 @@
-import { EmprestimoRepository } from '../repositories/EmprestimoRepository';
-import { LivroRepository } from '../repositories/LivroRepository';
-import { ClienteRepository } from '../repositories/ClienteRepository';
-import { Emprestimo } from '../models/Emprestimo';
+import { EmprestimoRepository } from '../repositories/EmprestimoRepository.js';
+import { LivroRepository } from '../repositories/LivroRepository.js';
+import { ClienteRepository } from '../repositories/ClienteRepository.js';
+import type { Emprestimo } from '../models/Emprestimo.js';
 
 export class EmprestimoService {
     private emprestimoRepository = new EmprestimoRepository();
