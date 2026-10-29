@@ -43,7 +43,7 @@ A aplicação está organizada em camadas para garantir a separação de respons
 1. Clonar o repositório e instalar as dependências:
 
     ```bash
-    git clone [https://github.com/fhkwmk/bookstore-manager-cli.git](https://github.com/fhkwmk/bookstore-manager-cli.git)
+    git clone https://github.com/fhkwmk/bookstore-manager-cli.git
     cd bookstore-manager-cli
     npm install
     ```
