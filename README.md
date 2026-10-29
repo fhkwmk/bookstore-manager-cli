@@ -34,24 +34,26 @@ A aplicação está organizada em camadas para garantir a separação de respons
 ## ⚙️ Requisitos para Execução
 * Node.js instalado na máquina.
 * Gerenciador de pacotes `npm`.
-* PostgreSQL configurado para execução do script.
+* PostgreSQL instalado e configurado.
 
 ---
 
 ## 🚀 Instalação e Execução
 
-1. Para clonar o projeto corretamente, utilize o comando abaixo no seu terminal:
+1. Clonar o repositório e instalar as dependências:
 
     ```bash
-    git clone https://github.com/fhkwmk/bookstore-manager-cli.git
-    ```
-
-2. Entre na pasta do projeto e instale as dependências:
-
-    ```bash
+    git clone [https://github.com/fhkwmk/bookstore-manager-cli.git](https://github.com/fhkwmk/bookstore-manager-cli.git)
     cd bookstore-manager-cli
     npm install
     ```
+
+2. Configuração do Banco de Dados PostgreSQL:
+   * Antes de executar a aplicação, crie um banco de dados no seu servidor PostgreSQL chamado `bookstore_db`:
+     ```sql
+     CREATE DATABASE bookstore_db;
+     ```
+   * Em seguida, conecte-se ao banco `bookstore_db` e execute o script SQL completo localizado na pasta `database/script.sql` (contendo DDL de criação das tabelas, DML de inserção e relatórios).
 
 3. Execução da aplicação:
 
