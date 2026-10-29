@@ -52,6 +52,7 @@ A aplicação está organizada em camadas para garantir a separação de respons
     cd bookstore-manager-cli
     npm install
     ```
+3. Execução
 
     ```bash
     npm rum start
