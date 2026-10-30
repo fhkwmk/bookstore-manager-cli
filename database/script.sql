@@ -84,10 +84,6 @@ UPDATE clientes
 SET telefone = '(48) 99999-0000' 
 WHERE email = 'ana.souza@email.com';
 
--- Exemplo de Remoção (DELETE) - Removendo um empréstimo de teste e depois reinserindo ou apagando registro seguro
--- (Garantindo integridade referencial com os dados de exemplo)
-
-
 -- -------------------------------------------------------------------------
 -- 3. CONSULTAS E RELATÓRIOS (QUERIES)
 -- -------------------------------------------------------------------------

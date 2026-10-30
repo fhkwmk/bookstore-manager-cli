@@ -117,7 +117,7 @@ export class MenuPrincipal {
         const idStr = await this.rl.question('ID do livro que deseja atualizar: ');
         const id = Number(idStr);
 
-        // Opcional: exibe o livro atual para referência
+        // Exibe o livro atual para referência
         const livroAtual = await this.livroService.buscarPorId(id);
         console.log(`Livro atual: "${livroAtual?.titulo}" (Estoque: ${livroAtual?.quantidade_disponivel})`);
 
@@ -126,12 +126,14 @@ export class MenuPrincipal {
         const qtdStr = await this.rl.question('Nova quantidade disponível (deixe em branco para manter): ');
         const autorIdStr = await this.rl.question('Novo ID do Autor (deixe em branco para manter): ');
 
-        await this.livroService.atualizarLivro(id, {
-            titulo: titulo.trim() !== '' ? titulo : undefined,
-            ano_publicacao: anoStr.trim() !== '' ? Number(anoStr) : undefined,
-            quantidade_disponivel: qtdStr.trim() !== '' ? Number(qtdStr) : undefined,
-            autor_id: autorIdStr.trim() !== '' ? Number(autorIdStr) : undefined
-        });
+        // Constrói o objeto de atualização condicionalmente apenas com os campos preenchidos
+        const dadosAtualizacao: any = {};
+        if (titulo.trim() !== '') dadosAtualizacao.titulo = titulo;
+        if (anoStr.trim() !== '') dadosAtualizacao.ano_publicacao = Number(anoStr);
+        if (qtdStr.trim() !== '') dadosAtualizacao.quantidade_disponivel = Number(qtdStr);
+        if (autorIdStr.trim() !== '') dadosAtualizacao.autor_id = Number(autorIdStr);
+
+        await this.livroService.atualizarLivro(id, dadosAtualizacao);
 
         console.log('\n✅ Livro atualizado com sucesso!');
     }
