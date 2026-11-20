@@ -1,46 +1,64 @@
-import { pool } from '../config/database.js';
-import { type Autor } from '../models/Autor.js';
+// Importa a entidade Autor e os dados iniciais em memória
+import { Autor, type AutorProps } from '../models/Autor.js';
+import { seedAutores } from '../data/seed.js';
 
+// Repositório em memória responsável por persistir e consultar autores durante a execução
 export class AutorRepository {
-    async criar(autor: Autor): Promise<Autor> {
-        const query = `
-            INSERT INTO autores (nome, nacionalidade)
-            VALUES ($1, $2)
-            RETURNING *;
-        `;
-        const values = [autor.nome, autor.nacionalidade];
-        const result = await pool.query(query, values);
-        return result.rows[0];
+    // Array em memória inicializado com uma cópia do seed de autores
+    private autores: Autor[] = [...seedAutores];
+
+    // Calcula o próximo ID sequencial com base no maior ID existente
+    private gerarProximoId(): number {
+        const maiorId = this.autores.reduce((max, item) => (item.id && item.id > max ? item.id : max), 0);
+        return maiorId + 1;
     }
 
-    async listarTodos(): Promise<Autor[]> {
-        const query = 'SELECT * FROM autores ORDER BY id ASC;';
-        const result = await pool.query(query);
-        return result.rows;
+    // Lista todos os autores armazenados em memória
+    public async listarTodos(): Promise<Autor[]> {
+        return [...this.autores];
     }
 
-    async buscarPorId(id: number): Promise<Autor | null> {
-        const query = 'SELECT * FROM autores WHERE id = $1;';
-        const result = await pool.query(query, [id]);
-        return result.rows.length ? result.rows[0] : null;
+    // Busca um autor específico pelo seu identificador
+    public async buscarPorId(id: number): Promise<Autor | undefined> {
+        return this.autores.find((autor) => autor.id === id);
     }
 
-    async atualizar(id: number, autor: Partial<Autor>): Promise<Autor | null> {
-        const query = `
-            UPDATE autores
-            SET nome = COALESCE($1, nome),
-                nacionalidade = COALESCE($2, nacionalidade)
-            WHERE id = $3
-            RETURNING *;
-        `;
-        const values = [autor.nome, autor.nacionalidade, id];
-        const result = await pool.query(query, values);
-        return result.rows.length ? result.rows[0] : null;
+    // Cadastra um novo autor em memória e retorna a instância criada com ID
+    public async criar(dados: Omit<AutorProps, 'id'>): Promise<Autor> {
+        const novoAutor = new Autor({
+            id: this.gerarProximoId(),
+            nome: dados.nome,
+            nacionalidade: dados.nacionalidade,
+        });
+        this.autores.push(novoAutor);
+        return novoAutor;
     }
 
-    async deletar(id: number): Promise<boolean> {
-        const query = 'DELETE FROM autores WHERE id = $1;';
-        const result = await pool.query(query, [id]);
-        return (result.rowCount ?? 0) > 0;
+    // Atualiza os dados de um autor existente e retorna o registro atualizado
+    public async atualizar(id: number, dados: Partial<Omit<AutorProps, 'id'>>): Promise<Autor | undefined> {
+        const autor = this.autores.find((item) => item.id === id);
+        if (!autor) {
+            return undefined;
+        }
+
+        if (dados.nome !== undefined) {
+            autor.nome = dados.nome;
+        }
+        if (dados.nacionalidade !== undefined) {
+            autor.nacionalidade = dados.nacionalidade;
+        }
+
+        return autor;
+    }
+
+    // Remove um autor pelo ID e retorna true se removido ou false se não encontrado
+    public async remover(id: number): Promise<boolean> {
+        const indice = this.autores.findIndex((item) => item.id === id);
+        if (indice === -1) {
+            return false;
+        }
+
+        this.autores.splice(indice, 1);
+        return true;
     }
 }

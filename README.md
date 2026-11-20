@@ -5,36 +5,36 @@ Aplicação back-end executada via terminal (CLI) desenvolvida em **Node.js** e 
 ---
 
 ## 🎯 Objetivo do Projeto
-Consolidar os conhecimentos de programação orientada a objetos, arquitetura em camadas, programação assíncrona, modelagem de banco de dados relacional (PostgreSQL) e boas práticas de desenvolvimento (Clean Code e SOLID).
+Consolidar os conhecimentos de programação orientada a objetos, arquitetura em camadas, programação assíncrona, modelagem de dados, boas práticas de desenvolvimento (Clean Code e SOLID) e execução em memória com carga inicial de dados.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 * **Node.js**
 * **TypeScript**
-* **PostgreSQL** (para o projeto de banco de dados e script DDL/DML/Relatórios)
-* **tsx** (execução de arquivos TypeScript)
-* **dotenv** (gerenciamento de variáveis de ambiente)
-* **pg** (cliente PostgreSQL)
+* **Repositórios em memória** com dados iniciais (`seed.ts`) para execução da CLI sem dependência de banco ativo
+* **PostgreSQL** (modelagem e artefatos SQL preservados na pasta `database/`)
 
 ---
 
 ## 📂 Arquitetura do Projeto
 A aplicação está organizada em camadas para garantir a separação de responsabilidades:
 * **`src/main.ts`**: Ponto de entrada da aplicação, responsável por iniciar o sistema e carregar os dados iniciais.
+* **`src/data/seed.ts`**: Dados iniciais em memória para autores, clientes, livros e empréstimos.
 * **`src/menus/`**: Camada de apresentação e organização dos menus interativos exibidos no terminal.
+* **`src/controllers/`**: Coordenação das interações entre os menus e os serviços.
 * **`src/services/`**: Implementação das regras de negócio, validações e tratamento de erros.
-* **`src/repositories/`**: Gerenciamento do acesso aos dados no banco de dados.
+* **`src/repositories/`**: Gerenciamento do acesso e manipulação dos dados em memória.
 * **`src/models/`**: Definição das classes, interfaces e tipos das entidades.
-* **`src/config/`**: Configuração da conexão com o banco de dados.
+* **`src/config/`**: Configurações e utilitários auxiliares do projeto.
 * **`database/`**: Contém o Diagrama Entidade-Relacionamento (DER em PDF/Drawio) e o arquivo `script.sql` (DDL, DML e consultas relacionais).
 
 ---
 
 ## ⚙️ Requisitos para Execução
-* Node.js instalado na máquina.
-* Gerenciador de pacotes `npm`.
-* PostgreSQL instalado e configurado.
+* **Node.js** instalado na máquina (com suporte a TypeScript).
+* Gerenciador de pacotes **`npm`**.
+* *Nota:* A execução da CLI em memória não exige um servidor PostgreSQL rodando localmente[cite: 16, 19]. Os arquivos de banco continuam disponíveis na pasta `database/` (e a versão anterior baseada em PostgreSQL pode ser consultada na branch de referência correspondente).
 
 ---
 
@@ -48,15 +48,22 @@ A aplicação está organizada em camadas para garantir a separação de respons
     npm install
     ```
 
-2. Configuração do Banco de Dados PostgreSQL:
-   * Antes de executar a aplicação, crie um banco de dados no seu servidor PostgreSQL chamado `bookstore_db`:
-     ```sql
-     CREATE DATABASE bookstore_db;
-     ```
-   * Em seguida, conecte-se ao banco `bookstore_db` e execute o script SQL completo localizado na pasta `database/script.sql` (contendo DDL de criação das tabelas, DML de inserção e relatórios).
+2. Verificar a tipagem do TypeScript (opcional):
 
-3. Execução da aplicação:
+    ```bash
+    npx tsc --noEmit
+    ```
+
+3. Compilar e executar a aplicação:
 
     ```bash
     npm run dev
     ```
+
+    *(Para gerar apenas os arquivos compilados em `dist/`, utilize `npm run build`.)*
+
+---
+
+## 🗄️ Artefatos de Banco de Dados (`database/`)
+* O script SQL (`database/script.sql`) e o DER permanecem na pasta `database/` para documentação da modelagem relacional.
+* Caso deseje consultar a versão anterior integrada ao PostgreSQL, utilize a branch de backup criada no repositório.

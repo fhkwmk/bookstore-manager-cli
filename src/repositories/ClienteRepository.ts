@@ -1,47 +1,74 @@
-import { pool } from '../config/database.js';
-import { type Cliente } from '../models/Cliente.js';
+// Importa a entidade Cliente e os dados iniciais em memória
+import { Cliente, type ClienteProps } from '../models/Cliente.js';
+import { seedClientes } from '../data/seed.js';
 
+// Repositório em memória responsável por gerenciar os registros de clientes
 export class ClienteRepository {
-    async criar(cliente: Cliente): Promise<Cliente> {
-        const query = `
-            INSERT INTO clientes (nome, email, telefone)
-            VALUES ($1, $2, $3)
-            RETURNING *;
-        `;
-        const values = [cliente.nome, cliente.email, cliente.telefone];
-        const result = await pool.query(query, values);
-        return result.rows[0];
+    // Array em memória inicializado com o seed de clientes
+    private clientes: Cliente[] = [...seedClientes];
+
+    // Gera o próximo ID numérico disponível
+    private gerarProximoId(): number {
+        const maiorId = this.clientes.reduce((max, item) => (item.id && item.id > max ? item.id : max), 0);
+        return maiorId + 1;
     }
 
-    async listarTodos(): Promise<Cliente[]> {
-        const query = 'SELECT * FROM clientes ORDER BY id ASC;';
-        const result = await pool.query(query);
-        return result.rows;
+    // Retorna todos os clientes cadastrados em memória
+    public async listarTodos(): Promise<Cliente[]> {
+        return [...this.clientes];
     }
 
-    async buscarPorId(id: number): Promise<Cliente | null> {
-        const query = 'SELECT * FROM clientes WHERE id = $1;';
-        const result = await pool.query(query, [id]);
-        return result.rows.length ? result.rows[0] : null;
+    // Busca um cliente pelo ID
+    public async buscarPorId(id: number): Promise<Cliente | undefined> {
+        return this.clientes.find((cliente) => cliente.id === id);
     }
 
-    async atualizar(id: number, cliente: Partial<Cliente>): Promise<Cliente | null> {
-        const query = `
-            UPDATE clientes
-            SET nome = COALESCE($1, nome),
-                email = COALESCE($2, email),
-                telefone = COALESCE($3, telefone)
-            WHERE id = $4
-            RETURNING *;
-        `;
-        const values = [cliente.nome, cliente.email, cliente.telefone, id];
-        const result = await pool.query(query, values);
-        return result.rows.length ? result.rows[0] : null;
+    // Busca um cliente pelo e-mail (útil para evitar duplicidade)
+    public async buscarPorEmail(email: string): Promise<Cliente | undefined> {
+        const emailNormalizado = email.trim().toLowerCase();
+        return this.clientes.find((cliente) => cliente.email.toLowerCase() === emailNormalizado);
     }
 
-    async deletar(id: number): Promise<boolean> {
-        const query = 'DELETE FROM clientes WHERE id = $1;';
-        const result = await pool.query(query, [id]);
-        return (result.rowCount ?? 0) > 0;
+    // Cria e armazena um novo cliente em memória
+    public async criar(dados: Omit<ClienteProps, 'id'>): Promise<Cliente> {
+        const novoCliente = new Cliente({
+            id: this.gerarProximoId(),
+            nome: dados.nome,
+            email: dados.email,
+            telefone: dados.telefone,
+        });
+        this.clientes.push(novoCliente);
+        return novoCliente;
+    }
+
+    // Atualiza os dados de um cliente existente
+    public async atualizar(id: number, dados: Partial<Omit<ClienteProps, 'id'>>): Promise<Cliente | undefined> {
+        const cliente = this.clientes.find((item) => item.id === id);
+        if (!cliente) {
+            return undefined;
+        }
+
+        if (dados.nome !== undefined) {
+            cliente.nome = dados.nome;
+        }
+        if (dados.email !== undefined) {
+            cliente.email = dados.email;
+        }
+        if (dados.telefone !== undefined) {
+            cliente.telefone = dados.telefone;
+        }
+
+        return cliente;
+    }
+
+    // Remove um cliente pelo ID
+    public async remover(id: number): Promise<boolean> {
+        const indice = this.clientes.findIndex((item) => item.id === id);
+        if (indice === -1) {
+            return false;
+        }
+
+        this.clientes.splice(indice, 1);
+        return true;
     }
 }

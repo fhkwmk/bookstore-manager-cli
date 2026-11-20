@@ -1,25 +1,14 @@
 {
   "name": "bookstore-manager-cli",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx src/main.ts",
-    "dev": "tsx src/main.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "type": "module",
-  "devDependencies": {
-    "@types/node": "^26.6.5",
-    "@types/pg": "^8.23.1",
-    "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "node src/main.ts"
   },
-  "dependencies": {
-    "dotenv": "^18.0.9",
-    "pg": "^8.23.1"
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^7.0.2"
   }
 }
